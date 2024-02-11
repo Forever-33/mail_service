@@ -1,0 +1,34 @@
+{% extends 'index.html' %}
+
+{% block content %}
+<!-- Контент страницы -->
+<div class="container mt-5">
+    <h2 class="text-center mb-4">Рассылки</h2>
+    <div class="table-responsive">
+        <table class="table table-bordered">
+            <thead>
+            <tr>
+                <th scope="col">ID</th>
+                <th scope="col">Email</th>
+                <th scope="col">Тема</th>
+                <th scope="col">Сообщение</th>
+                <th scope="col">Статус</th>
+                <th scope="col">Статус клиента</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr>
+            {% for subscribers_instance in subscribers %}
+                <th scope="row">{{ subscribers_instance.id }}</th>
+                <td>{{ subscribers_instance.email }}</td>
+                <td>Рассылка 1</td>
+                <td>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer nec odio. Praesent libero.</td>
+                <td>Отправлено</td>
+                <td>Прочитано</td>
+            {% endfor %}
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+{% endblock %}

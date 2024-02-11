@@ -6,8 +6,14 @@
 }
 
 /* Отступы между кнопками на мобильных устройствах */
-@media (max-width: 576px) {
+@media (max-width: 768px) {
     .nav-item {
         margin-top: 10px; /* Задайте необходимый отступ */
     }
+}
+
+textarea {
+    min-height: 100px;
+    max-height: 220px;
+    resize: vertical;
 }

@@ -1,0 +1,32 @@
+{% extends 'index.html' %}
+
+{% block content %}
+<!-- Контент страницы -->
+<div class="container mt-5">
+    <h2 class="text-center mb-4">Подписчики</h2>
+    <div class="table-responsive">
+        <table class="table table-bordered">
+            <thead>
+            <tr>
+                <th scope="col">ID</th>
+                <th scope="col">Email</th>
+                <th scope="col">Имя</th>
+                <th scope="col">Фамилия</th>
+                <th scope="col">День рождения</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for subscribers_instance in subscribers %}
+            <tr>
+                <th scope="row">{{ subscribers_instance.id }}</th>
+                <td>{{ subscribers_instance.email }}</td>
+                <td>{{ subscribers_instance.first_name }}</td>
+                <td>{{ subscribers_instance.last_name }}</td>
+                <td>{{ subscribers_instance.birthday }}</td>
+            </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+{% endblock %}
