@@ -1,0 +1,13 @@
+/* Прижатие footer к низу страницы */
+.footer {
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+}
+
+/* Отступы между кнопками на мобильных устройствах */
+@media (max-width: 576px) {
+    .nav-item {
+        margin-top: 10px; /* Задайте необходимый отступ */
+    }
+}
