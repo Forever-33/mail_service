@@ -4,6 +4,12 @@
 <!-- Контент страницы -->
 <div class="container mt-5">
     <h2 class="text-center mb-4">Рассылки</h2>
+    <div class="row justify-content-center mb-4">
+        <div class="col-6 text-center">
+    <a class="nav-link btn btn-primary text-light btn-lg btn-block" href="#" data-toggle="modal"
+                       data-target="#newsletterModal">Создать рассылку!</a>
+            </div>
+    </div>
     <div class="table-responsive">
         <table class="table table-bordered">
             <thead>
@@ -17,16 +23,18 @@
             </tr>
             </thead>
             <tbody>
-            <tr>
             {% for subscribers_instance in subscribers %}
+            {% for mailings_instance in mailings %}
+            <tr>
                 <th scope="row">{{ subscribers_instance.id }}</th>
                 <td>{{ subscribers_instance.email }}</td>
-                <td>Рассылка 1</td>
-                <td>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer nec odio. Praesent libero.</td>
+                <td>{{ mailings_instance.theme }}</td>
+                <td>{{ mailings_instance.message }}</td>
                 <td>Отправлено</td>
                 <td>Прочитано</td>
-            {% endfor %}
             </tr>
+            {% endfor %}
+            {% endfor %}
             </tbody>
         </table>
     </div>

@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Subscribers
+from .models import Subscribers, Mailings
 
 # Register your models here.
-admin.site.register(Subscribers)
+admin.site.register([Subscribers, Mailings])
