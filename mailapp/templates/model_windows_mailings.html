@@ -41,7 +41,7 @@
                 </button>
             </div>
             <div class="modal-body">
-                <form id="scheduledNewsletterForm">
+                <form method="post" id="scheduledNewsletterForm">
                     {% csrf_token %}
                     <div class="form-group">
                         <label for="subject">Тема:</label>

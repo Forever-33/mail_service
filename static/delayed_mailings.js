@@ -1,5 +1,5 @@
 document.addEventListener('DOMContentLoaded', function () {
-    var form = document.getElementById('scheduledNewsletterModal');
+    var form = document.getElementById('scheduledNewsletterForm');
     var messageContainer = document.getElementById('messageContainer2');
 
     form.addEventListener('submit', function (e) {

@@ -1,9 +1,13 @@
 # -*- coding: utf-8 -*-
-from django.http import HttpResponse, JsonResponse
-from django.shortcuts import render, get_object_or_404
-from .models import Subscribers, Mailings
-from django.core.mail import send_mass_mail, send_mail
+from django.http import JsonResponse
+from django.shortcuts import render
+from .models import Subscribers, Mailings, ScheduledMailing
+from django.core.mail import send_mass_mail
 from django.conf import settings
+from django.utils import timezone
+from .tasks import send_scheduled_mail
+import uuid
+from celery import Celery
 
 
 def subscribers(request):
@@ -20,7 +24,6 @@ def mailings(request):
         subject = request.POST.get('subject')
         message_template = request.POST.get('message')
 
-        # Создаем экземпляр модели Mailings и сохраняем его в базе данных
         mailing_instance = Mailings.objects.create(theme=subject, message=message_template)
         mailing_instance.save()
 
@@ -38,7 +41,6 @@ def mailings(request):
             message_data.append((subject, personalized_message, settings.EMAIL_HOST_USER, [subscriber.email]))
 
         try:
-            # Отправляем письма
             send_mass_mail(message_data, fail_silently=False)
             print("Письма успешно отправлены")
             return JsonResponse({'success': True})
@@ -52,12 +54,39 @@ def mailings(request):
     })
 
 
+app = Celery()
+
+
 def delayed_mailings(request):
     mailings_p = Mailings.objects.all()
     subscribers_p = Subscribers.objects.all()
+    if request.method == 'POST':
+        subject = request.POST.get('subject')
+        message_template = request.POST.get('message')
+        schedule_date = timezone.datetime.strptime(request.POST.get('schedule_date'), '%Y-%m-%dT%H:%M')
+
+        # Создаем отложенное письмо
+        scheduled_mailing = ScheduledMailing.objects.create(
+            subject=subject,
+            message_template=message_template,
+            schedule_date=schedule_date,
+            identifier=str(uuid.uuid4())  # Создание случайного уникального идентификатора
+        )
+        scheduled_mailing.save()
+
+        # Вычисляем временную метку для выполнения задачи
+        eta_time = scheduled_mailing.schedule_date
+        eta_time -= timezone.timedelta(hours=3)
+
+        # Запускаем задачу отправки отложенных писем с использованием eta
+        send_scheduled_mail.apply_async(args=[subject, message_template], eta=eta_time)
+        return JsonResponse({'success': True})
+
     return render(request, 'delayed_mailings.html', {
         'subscribers': subscribers_p,
         'mailings': mailings_p,
     })
+
+
 
 
