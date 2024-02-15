@@ -1,3 +1,4 @@
+
 from __future__ import unicode_literals
 
 import uuid
@@ -36,3 +37,13 @@ class ScheduledMailing(models.Model):
     def __str__(self):
         return str('delayed')
 
+
+class EmailOpenEvent(models.Model):
+    objects = models.Manager()
+    read = models.CharField(max_length=200, default="Read")
+    subscriber_id = models.IntegerField()
+    mailing_id = models.IntegerField()
+    opened_at = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return str('opened_at')

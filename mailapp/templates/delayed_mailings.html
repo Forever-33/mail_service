@@ -1,9 +1,8 @@
 {% extends 'index.html' %}
 
 {% block content %}
-<!-- Контент страницы -->
 <div class="container mt-5">
-    <h2 class="text-center mb-4">Отложенные рассылки</h2>
+    <h2 class="text-center mb-4">Отложенные рассылки:</h2>
     <div class="row justify-content-center mb-4">
         <div class="col-6 text-center">
     <a class="nav-link btn btn-info text-light btn-lg btn-block" href="#" data-toggle="modal"
@@ -11,7 +10,7 @@
             </div>
     </div>
     <div class="table-responsive">
-        <table class="table table-bordered">
+        <table class="table table-bordered table-striped" style="background-color: #f3f3f3;">
             <thead>
             <tr>
                 <th scope="col">ID</th>
@@ -19,21 +18,19 @@
                 <th scope="col">Тема</th>
                 <th scope="col">Сообщение</th>
                 <th scope="col">Дата и время отправки</th>
-                <th scope="col">Статус</th>
                 <th scope="col">Статус клиента</th>
             </tr>
             </thead>
             <tbody>
             {% for subscribers_instance in subscribers %}
-            {% for mailings_instance in mailings %}
+            {% for scheduled_mailings_p_instance in scheduled_mailings_p %}
             <tr>
                 <th scope="row">{{ subscribers_instance.id }}</th>
                 <td>{{ subscribers_instance.email }}</td>
-                <td>{{ mailings_instance.theme }}</td>
-                <td>{{ mailings_instance.message }}</td>
-                <td>2024-02-10 10:00</td>
-                <td>Отправлено</td>
-                <td>Прочитано</td>
+                <td>{{ scheduled_mailings_p_instance.subject }}</td>
+                <td>{{ scheduled_mailings_p_instance.message_template }}</td>
+                <td>{{ scheduled_mailings_p_instance.schedule_date }}</td>
+                <td></td>
             </tr>
             {% endfor %}
             {% endfor %}
